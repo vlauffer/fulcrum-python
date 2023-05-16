@@ -28,6 +28,11 @@ class Updateable(object):
         api_resp = self.client.call('put', '{0}/{1}'.format(self.path, id), data=obj, extra_headers={'Content-Type': 'application/json'})
         return api_resp
 
+class Historical(object):
+    def history(self, id, url_params=None):
+        api_resp = api_resp = self.client.call('get', '{0}/{1}/history'.format(self.path, id))
+        return api_resp
+
 
 class Media(object):
     def media(self, id, size='original'):

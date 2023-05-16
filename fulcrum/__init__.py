@@ -1,3 +1,5 @@
+#Buffer
+
 from fulcrum.api import Client
 from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Memberships, Roles, ChoiceLists, Signatures,
@@ -6,7 +8,7 @@ from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Authorizations)
 from fulcrum.utils import is_string
 
-__version__ = '1.12.0'
+__version__ = '1.13.0'
 
 default_uri = 'https://api.fulcrumapp.com'
 

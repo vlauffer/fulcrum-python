@@ -1,20 +1,13 @@
-from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Media, Track, MediaCreateable
+from fulcrum.mixins import Findable, Deleteable, Createable, Historical, Searchable, Updateable, Media, Track, MediaCreateable
 from . import BaseAPI
 
 
-class Forms(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
+class Forms(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable, Historical):
     path = 'forms'
-    
-    def history(self, id, url_params=None):
-        api_resp = api_resp = self.client.call('get', '{0}/{1}/history'.format(self.path, id), url_params=url_params)
-        return api_resp
 
-class Records(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
+class Records(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable, Historical):
     path = 'records'
 
-    def history(self, id):
-        api_resp = api_resp = self.client.call('get', '{0}/{1}/history'.format(self.path, id))
-        return api_resp
 
 class Webhooks(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'webhooks'
