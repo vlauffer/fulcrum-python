@@ -1,8 +1,8 @@
 from fulcrum.utils import is_string, generate_uuid
 
 class Findable(object):
-    def find(self, id):
-        api_resp = self.client.call('get', '{0}/{1}'.format(self.path, id))
+    def find(self, id, url_params=None):
+        api_resp = self.client.call('get', '{0}/{1}'.format(self.path, id), url_params=url_params)
         return api_resp
 
 
@@ -78,4 +78,22 @@ class MediaCreateable(object):
         }
 
         api_resp = self.client.call('post', self.path + self.media_upload_path, data=data, files=files)
+        return api_resp
+    
+class PermissionChangable(object):
+    def change(self, resource_type, id, action, object_ids):
+        resource_type_string =  f'{resource_type}_members'
+        id_prefix = f'{resource_type}_id'
+        if self.path != 'memberships':
+            resource_type_string = f'{self.path[:-1]}_{resource_type}'
+            id_prefix = f'{self.path[:-1]}_id'
+        change = {
+            'type': resource_type_string,
+            id_prefix: id,
+            action: object_ids
+        }
+        data = {'change': change}
+        api_resp = self.client.call('post', f'{self.path}/change_permissions',
+                                    data=data,
+                                    extra_headers={'Content-Type': 'application/json'})
         return api_resp

@@ -63,6 +63,8 @@ class Client(object):
             # No body is returned for delete and close methods.
             return
         elif json_content:
+            if len(resp.text) < 1:
+                return {}
             return resp.json()
         else:
             return resp.content

@@ -1,4 +1,4 @@
-from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Media, Track, MediaCreateable
+from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Media, Track, MediaCreateable, PermissionChangable
 from . import BaseAPI
 
 
@@ -56,20 +56,8 @@ class Audio(BaseAPI, Findable, Searchable, Media, Track, MediaCreateable):
     default_content_type = 'audio/mp3'
 
 
-class Memberships(BaseAPI, Searchable):
+class Memberships(BaseAPI, Searchable, PermissionChangable):
     path = 'memberships'
-
-    def change(self, resource_type, id, action, membership_ids):
-        change = {
-            'type': '{}_members'.format(resource_type),
-            '{}_id'.format(resource_type): id,
-            action: membership_ids
-        }
-        data = {'change': change}
-        api_resp = self.client.call('post', 'memberships/change_permissions',
-                                    data=data,
-                                    extra_headers={'Content-Type': 'application/json'})
-        return api_resp
 
 
 class Roles(BaseAPI, Searchable):
@@ -114,3 +102,7 @@ class Authorizations(BaseAPI, Findable, Deleteable, Searchable, Updateable):
     def regenerate(self, id):
         api_resp = self.client.call('post', '{}/{}/regenerate'.format(self.path, id))
         return api_resp
+
+class Groups(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable, PermissionChangable):
+    path = 'groups'
+
